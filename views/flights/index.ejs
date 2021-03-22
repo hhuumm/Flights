@@ -15,7 +15,9 @@
                 <td>Departure</td>
                 <td>DETAILS</td>
               </tr>
-        <% flights.forEach((f) => { %>
+        <%if(flights!=null) {%>
+        
+              <% flights.forEach((f) => { %>
             <tr>
                 <td><%= f.airline %></td>
                 <td><%= f.airport %></td>
@@ -24,6 +26,9 @@
                 <td><a href="/flights/<%= f.flightNo %>">DETAILS</a></td>
               </tr>
             <% }) %>
+            <%} else{%>
+                <tr><td>There are no flights in the directory</td></tr>
+                <% } %>
       </tbody>
 </body>
 </html>
