@@ -9,8 +9,11 @@ const indexRouter = require('./routes/index');
 const flightsRouter = require('./routes/flights');
 
 
-
+//This configures env onto server
 require("dotenv").config();
+
+//this connects to the database
+require("./config/database")
 
 //create the Express app
 const app = express();

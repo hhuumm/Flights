@@ -2,15 +2,14 @@
 
 
 <section id = "Show-Page">
-<div>Airline</div>
-<div><%flight.airline%></div>
-<div>Airport</div>
-<div><%flight.airport%></div>
-<div>Flight#</div>
-<div><%flight.flightNo%></div>
-<div>Departs</div>
-<div><%flight.departs%></div>
-
+<div>Airline::<%=flight.airline%></div>
+<div>Airport::<%=flight.airport%></div>
+<div>FlightNo::<%=flight.flightNo%></div>
+<div>Departure::<%=flight.departs%></div>
+<div>Tickets::<% flight.ticket%></div>
+<form action="/flights/<%= flight._id %>?_method=DELETE" class="delete-form" method="POST">
+    <button type="submit">Delete</button>
+  </form>
 </section>
 
 
@@ -24,5 +23,5 @@
 
 
 
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>
 
