@@ -6,22 +6,26 @@
 <div>Airport::<%=flight.airport%></div>
 <div>FlightNo::<%=flight.flightNo%></div>
 <div>Departure::<%=flight.departs%></div>
-<div>Tickets::<% flight.ticket%></div>
+
 <form action="/flights/<%= flight._id %>?_method=DELETE" class="delete-form" method="POST">
     <button type="submit">Delete</button>
   </form>
+  <form action="/flights/<%= flight._id %>/tickets" method="GET">
+    <button type="submit">Add Ticket</button>
+  </form>
+
+
+  <div>Tickets::<% flight.tickets.forEach(ticket=>{%></div>
+
+<label>Seat :: <%=ticket.seat%></label>
+
+<label>Price :: $<%=ticket.price%></label>
+
+
+
+
+ <% }) %>
 </section>
-
-
-
-
-
-
-
-
-
-
-
 
 <%- include('../partials/footer') %>
 

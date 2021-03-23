@@ -5,7 +5,9 @@ index,
 create,
 new:newFlight,
 show,
-delete:deleteToDo
+delete:deleteToDo,
+newTicket,
+
 
 
 }
@@ -31,7 +33,7 @@ function show(req, res) {
 }
 
 function index(req, res) {
-    // Find all the movies
+    // Find all the flights
     Flight.find({}, function(err, flights){
       // Render index view
       console.log('flights', flights)
@@ -44,6 +46,12 @@ function index(req, res) {
   function newFlight(req, res) {
     // const flight = new Flight(req.body);
     res.render('flights/new', {title: 'Add Flight'})
+  }
+
+  function newTicket(req, res){
+    //const flight = new Flight(req.body)
+    res.render('flights/newTicket', {title: 'New Ticket'})
+
   }
 
   function create(req, res) {
@@ -60,20 +68,23 @@ function index(req, res) {
   }
 
   function deleteToDo(req,res){
-    console.log(req.params._id)
-    Flight.deleteOne(req.params._id)
-    res.redirect('/flights')
-  }
+    Flight.findByIdAndDelete(req.params.id,err=>{console.log(err);
 
-  function createReview(req, res) {
-    // Find the movie by id
-    Movie.findById(req.params.id, function(err, movie) {
-      // Add the review (from req.body)
-      // and save the movie
-      movie.reviews.push(req.body)
-      movie.save(function(err) {
-        // Redirect to show view
-        res.redirect(`/movies/${movie._id}`)
-      })
-    })
-  }
+      res.redirect('/flights'
+    )})}
+
+  // function createTicket(req, res) {
+  //   // Find the flight by id
+  //  const plane = Flight.findById(req.params.id, function(err, flight) {
+  //     // Add the review (from req.body)
+  //     // and save the flight
+  //         if(err)
+  //         {
+  //           console.log(err);
+  //           return;
+  //         }
+  //     })
+
+      
+  //   }
+
