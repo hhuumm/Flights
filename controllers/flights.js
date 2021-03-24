@@ -83,13 +83,23 @@ function index(req, res) {
   function create(req, res) {
     // remove whitespace next to commas
     const flight = new Flight(req.body);
-    flight.save(function(err) {
+    flight.save(function(err,flight) {
       // one way to handle errors
       console.log(err)
-      if (err) return res.render('flights/new');
-      console.log(flight,"\n^^Test");
-      // for now, redirect right back to new.ejs
+      if (err)
+      {
+        console.log(err,"\n^^Error");
+        res.redirect("/flights/new")
+      }
+      else{
+           // for now, redirect right back to new.ejs
       res.redirect(`/flights/${flight._id}`);
+      }
+      
+     
+      
+      
+      
     });
   }
 
@@ -109,7 +119,10 @@ function index(req, res) {
 
      })
 
-   })
+   }).catch(err)
+   {
+     res.redirect(`/flights/${flight._id}`)
+    }
     
    
 
