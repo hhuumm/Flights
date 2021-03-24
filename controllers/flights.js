@@ -39,6 +39,7 @@ flight.save(function(err){
 }
 function createDestination(req,res){
 
+ 
   Destination.create(req.body, function(err,destination){
 
     res.redirect('/flights/newDestination')
@@ -47,8 +48,9 @@ function createDestination(req,res){
 
 }
 function newDestination(req,res){
-  res.render('destinations/new',{title:'Add Destination'})
-
+  Destination.find({},function(err,destinations){
+  res.render('destinations/new',{title:'Add Destination',destinations})
+})
 }
 function show(req, res) {
   Flight.findById(req.params.flightId)
@@ -110,24 +112,14 @@ function index(req, res) {
    
      flight.tickets.push(req.body)
      console.log(flight.tickets)
-     flight.save(function(err){
+     flight.save(function(err,flight){
        if(err){
          console.log(err)
-         res.redirect('/flights')
        }
       res.redirect(`/flights/${flight._id}`)
-
      })
 
-   }).catch(err)
-   {
-     res.redirect(`/flights/${flight._id}`)
-    }
-    
-   
-
-
-  }
+   })}
 
 
   function deleteToDo(req,res){
@@ -136,18 +128,5 @@ function index(req, res) {
       res.redirect('/flights'
     )})}
 
-  // function createTicket(req, res) {
-  //   // Find the flight by id
-  //  const plane = Flight.findById(req.params.id, function(err, flight) {
-  //     // Add the review (from req.body)
-  //     // and save the flight
-  //         if(err)
-  //         {
-  //           console.log(err);
-  //           return;
-  //         }
-  //     })
 
-      
-  //   }
 
