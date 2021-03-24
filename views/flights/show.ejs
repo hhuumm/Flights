@@ -2,30 +2,85 @@
 
 
 <section id = "Show-Page">
-<div>Airline::<%=flight.airline%></div>
-<div>Airport::<%=flight.airport%></div>
-<div>FlightNo::<%=flight.flightNo%></div>
-<div>Departure::<%=flight.departs%></div>
+      <div>Airline::<%=flight.airline%></div>
+      <div>Airport::<%=flight.airport%></div>
+      <div>FlightNo::<%=flight.flightNo%></div>
+      <div>Departure::<%=flight.departs%></div>
 
-<form action="/flights/<%= flight._id %>?_method=DELETE" class="delete-form" method="POST">
-    <button type="submit">Delete</button>
+
+
+
+</section>
+<section>
+
+
+  <form  action="/flights/<%=flight._id%>" method="POST">
+            <label>Seat</label>
+            <input name="seat" required pattern="[A-F]\d{1,2}">
+            <br>
+            <label>Price</label>
+            <input type="text" name='price'>
+            <br>
+            <input type="submit" value="Buy Ticket">
+ 
+  
+  
   </form>
-  <form action="/flights/<%= flight._id %>/tickets" method="GET">
-    <button type="submit">Add Ticket</button>
-  </form>
 
-
-  <div>Tickets::<% flight.tickets.forEach(ticket=>{%></div>
+  <div>Tickets::</div>
+        
+  <% flight.tickets.forEach(ticket=>{%>
 
 <label>Seat :: <%=ticket.seat%></label>
-
 <label>Price :: $<%=ticket.price%></label>
+<br>
 
+<% }) %>
 
-
-
- <% }) %>
 </section>
+
+
+<form action="/flights/<%= flight._id %>/destinations " method="POST">
+<select name="destinationId"  >
+<%destinations.forEach(function(d){%>
+
+<option value="<%=d._id%>">
+  <%= d.airport%>
+
+
+</option>
+
+
+
+  <%})%>
+
+</select>
+
+<input type="submit" value="Submit">
+</form>
+
+<% if (flight.destinations.length){ %>
+<table>
+
+<thead>
+
+        <tr>
+          <th>Destinations</th>
+        </tr>
+
+</thead>
+<tbody>
+        <% flight.destinations.forEach(function(d){ %>
+          <tr>
+            <td><%= d.airport %></td>
+
+          </tr>
+        <% }) %>
+</tbody>
+</table>
+<%} else { %>
+          <h5>No destinations Yet</h5>
+  <% } %>
 
 <%- include('../partials/footer') %>
 

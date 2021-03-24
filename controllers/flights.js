@@ -1,4 +1,5 @@
 const Flight = require('../models/flight')
+const Destination = require("../models/destination")
 
 module.exports={
 index,
@@ -6,7 +7,10 @@ create,
 new:newFlight,
 show,
 delete:deleteToDo,
-newTicket,
+createTicket,
+newDestination,
+createDestination,
+addDestination
 
 
 
@@ -22,21 +26,47 @@ newTicket,
 //       })
 //     }
 
+function addDestination(req,res){
+
+Flight.findById(req.params.id, function(err,flight){
+flight.destinations.push(req.body.destinationId)
+flight.save(function(err){
+  res.redirect(`/flights/${flight._id}`)
+
+})
+})
+
+}
+function createDestination(req,res){
+
+  Destination.create(req.body, function(err,destination){
+
+    res.redirect('/flights/newDestination')
+
+  })
+
+}
+function newDestination(req,res){
+  res.render('destinations/new',{title:'Add Destination'})
+
+}
 function show(req, res) {
   Flight.findById(req.params.flightId)
-  .then(flight=> {
-    res.render('flights/show', {flight,title:`Flight ${flight._id}` })
+  .populate('destinations')
+  .exec((err,flight)=>{
+    //find all destinations where the _ID is NotIN(nin) the array flight.destinations
+    Destination.find({_id:{$nin:flight.destinations}},function(err,destinations){    
+    res.render('flights/show', {flight,destinations,title:`Flight ${flight._id}` })
+ 
   })
-  .catch(err => {
-    console.log(err)
   })
+
 }
 
 function index(req, res) {
     // Find all the flights
     Flight.find({}, function(err, flights){
       // Render index view
-      console.log('flights', flights)
       res.render('flights/index', {
         flights,
         title: 'All Flights'
@@ -48,11 +78,7 @@ function index(req, res) {
     res.render('flights/new', {title: 'Add Flight'})
   }
 
-  function newTicket(req, res){
-    //const flight = new Flight(req.body)
-    res.render('flights/newTicket', {title: 'New Ticket'})
 
-  }
 
   function create(req, res) {
     // remove whitespace next to commas
@@ -61,11 +87,35 @@ function index(req, res) {
       // one way to handle errors
       console.log(err)
       if (err) return res.render('flights/new');
-      console.log(flight);
+      console.log(flight,"\n^^Test");
       // for now, redirect right back to new.ejs
       res.redirect(`/flights/${flight._id}`);
     });
   }
+
+  function createTicket(req, res){
+   console.log(req.body)
+   console.log("^^Req.body")
+    Flight.findById(req.params.flightId, function (err,flight){
+   
+     flight.tickets.push(req.body)
+     console.log(flight.tickets)
+     flight.save(function(err){
+       if(err){
+         console.log(err)
+         res.redirect('/flights')
+       }
+      res.redirect(`/flights/${flight._id}`)
+
+     })
+
+   })
+    
+   
+
+
+  }
+
 
   function deleteToDo(req,res){
     Flight.findByIdAndDelete(req.params.id,err=>{console.log(err);
