@@ -39,7 +39,7 @@
 
 </section>
 
-
+<section>
 <form action="/flights/<%= flight._id %>/destinations " method="POST">
 <select name="destinationId"  >
 <%destinations.forEach(function(d){%>
@@ -60,27 +60,24 @@
 </form>
 
 <% if (flight.destinations.length){ %>
-<table>
+        
+         <label><strong>Destinations</strong></label>
+         <br>
+        
 
-<thead>
-
-        <tr>
-          <th>Destinations</th>
-        </tr>
-
-</thead>
-<tbody>
         <% flight.destinations.forEach(function(d){ %>
-          <tr>
-            <td><%= d.airport %></td>
+          
+            <label><%= d.airport %></label>
+            <br>
 
-          </tr>
+
         <% }) %>
-</tbody>
-</table>
+
 <%} else { %>
           <h5>No destinations Yet</h5>
   <% } %>
+
+</section>
 
 <%- include('../partials/footer') %>
 
